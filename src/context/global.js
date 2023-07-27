@@ -31,6 +31,7 @@ export const GlobalProvider = ({ children }) => {
 
     dispatch({ type: GET_TRENDING, payload: res.data.data });
   };
+  console.log(state);
 
   return (
     <GlobalContext.Provider value={"hello"}>{children}</GlobalContext.Provider>
