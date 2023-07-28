@@ -3,6 +3,7 @@ import { useTheme } from "./context/themeContext";
 import Header from "./components/Header";
 import Button from "./components/Button";
 import { useGlobal } from "./context/global";
+import Trending from "./components/Trending";
 
 function App() {
   const theme = useTheme(); //accessing useTheme context
@@ -21,6 +22,9 @@ function App() {
           icon={<i className="fa-solid fa-shuffle"></i>}
         />
       </div>
+      <main>
+        <Trending />
+      </main>
     </AppStyled>
   );
 }
@@ -37,5 +41,8 @@ const AppStyled = styled.div`
     gap: 4rem;
     margin-top: 4rem;
     margin-bottom: 2rem;
+  }
+  main {
+    padding: 2rem 8rem;
   }
 `;
