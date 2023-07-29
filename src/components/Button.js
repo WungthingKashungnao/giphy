@@ -5,7 +5,7 @@ import { useTheme } from "../context/themeContext";
 const Button = ({ name, icon, onClick }) => {
   const theme = useTheme();
   return (
-    <ButtonSyled theme={theme}>
+    <ButtonSyled theme={theme} onClick={onClick}>
       <span>
         {icon}
         {name}

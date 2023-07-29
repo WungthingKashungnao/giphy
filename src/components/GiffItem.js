@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useTheme } from "../context/themeContext";
 import { styled } from "styled-components";
 import Modal from "./Modal";
+import { useGlobal } from "../context/global";
+import Loader from "./Loader";
 
 const GiffItem = ({
   id,
@@ -14,6 +16,7 @@ const GiffItem = ({
 }) => {
   const theme = useTheme();
   const [modal, setModal] = useState(false); //state for madal
+  const { loading } = useGlobal();
 
   return (
     <GiffStyled theme={theme}>
@@ -26,17 +29,21 @@ const GiffItem = ({
           giff={url}
         />
       )}
-      <div
-        className="gif"
-        onDoubleClick={() => {
-          setModal(true);
-        }}
-      >
-        <img src={url} alt={title} />
-        <div className="love">
-          <i className="fa-solid fa-heart"></i>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div
+          className="gif"
+          onDoubleClick={() => {
+            setModal(true);
+          }}
+        >
+          <img src={url} alt={title} />
+          <div className="love">
+            <i className="fa-solid fa-heart"></i>
+          </div>
         </div>
-      </div>
+      )}
     </GiffStyled>
   );
 };

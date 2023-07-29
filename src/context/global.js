@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { globalReducer } from "../reducers/globalReducer";
 import axios from "axios";
-import { GET_TRENDING, LOADING } from "../utils/globalActions";
+import { GET_RANDOM, GET_TRENDING, LOADING } from "../utils/globalActions";
 
 const GlobalContext = createContext();
 const apikey = process.env.REACT_APP_API_KEY;
@@ -32,8 +32,18 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: GET_TRENDING, payload: res.data.data });
   };
 
+  //   get random Gifs
+  const getRandom = async () => {
+    dispatch({ type: LOADING });
+    const res = await axios.get(
+      `${baseUrl}/random?api_key=${apikey}&tag=&rating=g`
+    );
+
+    dispatch({ type: GET_RANDOM, payload: res.data.data });
+  };
+
   return (
-    <GlobalContext.Provider value={{ ...state }}>
+    <GlobalContext.Provider value={{ ...state, getRandom }}>
       {children}
     </GlobalContext.Provider>
   );
