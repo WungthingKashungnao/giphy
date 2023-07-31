@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { useTheme } from "../context/themeContext";
+import { useGlobal } from "../context/global";
 
 const search = <i className="fa-solid fa-magnifying-glass"></i>;
 
-const Header = () => {
+const Header = ({ setRendered }) => {
+  const { getSearch } = useGlobal();
   const theme = useTheme();
+  const [query, setQuery] = useState(""); //state for search query
+  // on submission of form this function will run
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getSearch(query);
+    setRendered("search"); //cahnging the output to search component
+    setQuery(""); //clearing the search on form submission
+
+    // if user gives no query and search display trending
+    if (query === "") {
+      setRendered("trending");
+    }
+  };
+  // this function wil run when these is a change in the query
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
   return (
     <HeaderStyled theme={theme}>
       {/* logo start */}
@@ -32,9 +51,14 @@ const Header = () => {
       {/* logo end */}
 
       {/* search start */}
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-control">
-          <input type="text" placeholder="Search for all GIFS" />
+          <input
+            type="text"
+            placeholder="Search for all GIFS"
+            value={query}
+            onChange={handleChange}
+          />
           <button className="submit-btn">{search}</button>
         </div>
       </form>

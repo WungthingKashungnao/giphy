@@ -1,7 +1,12 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { globalReducer } from "../reducers/globalReducer";
 import axios from "axios";
-import { GET_RANDOM, GET_TRENDING, LOADING } from "../utils/globalActions";
+import {
+  GET_RANDOM,
+  GET_SEARCH,
+  GET_TRENDING,
+  LOADING,
+} from "../utils/globalActions";
 
 const GlobalContext = createContext();
 const apikey = process.env.REACT_APP_API_KEY;
@@ -42,8 +47,18 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: GET_RANDOM, payload: res.data.data });
   };
 
+  //   get search restult Gifs
+  const getSearch = async (query) => {
+    dispatch({ type: LOADING });
+    const res = await axios.get(
+      `${baseUrl}/search?api_key=${apikey}&q=${query}&limit=30&offset=0&rating=g&lang=en&bundle=messaging_non_clips`
+    );
+
+    dispatch({ type: GET_SEARCH, payload: res.data.data });
+  };
+
   return (
-    <GlobalContext.Provider value={{ ...state, getRandom }}>
+    <GlobalContext.Provider value={{ ...state, getRandom, getSearch }}>
       {children}
     </GlobalContext.Provider>
   );

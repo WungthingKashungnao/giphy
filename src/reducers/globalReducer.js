@@ -1,4 +1,9 @@
-import { GET_RANDOM, GET_TRENDING, LOADING } from "../utils/globalActions";
+import {
+  GET_RANDOM,
+  GET_SEARCH,
+  GET_TRENDING,
+  LOADING,
+} from "../utils/globalActions";
 
 export const globalReducer = (state, action) => {
   switch (action.type) {
@@ -8,6 +13,9 @@ export const globalReducer = (state, action) => {
       return { ...state, loading: false, trending: action.payload };
     case GET_RANDOM:
       return { ...state, loading: false, random: action.payload };
+
+    case GET_SEARCH:
+      return { ...state, loading: false, searchResults: action.payload };
     default:
       break;
   }

@@ -5,8 +5,8 @@ import Button from "./components/Button";
 import { useGlobal } from "./context/global";
 import Trending from "./components/Trending";
 import { useState } from "react";
-import { render } from "@testing-library/react";
 import Random from "./components/Random";
+import Search from "./components/Search";
 
 function App() {
   const theme = useTheme(); //accessing useTheme context
@@ -23,7 +23,7 @@ function App() {
       case "random":
         return <Random />;
       case "search":
-        return <Trending />;
+        return <Search />;
       default:
         return <Trending />;
     }
@@ -31,7 +31,7 @@ function App() {
 
   return (
     <AppStyled theme={theme}>
-      <Header />
+      <Header setRendered={setRendered} />
       <div className="fetch-btns">
         <Button
           name={"Liked"}
