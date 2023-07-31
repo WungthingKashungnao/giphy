@@ -16,7 +16,7 @@ const GiffItem = ({
 }) => {
   const theme = useTheme();
   const [modal, setModal] = useState(false); //state for madal
-  const { loading } = useGlobal();
+  const { loading, saveToFavourites } = useGlobal();
 
   return (
     <GiffStyled theme={theme}>
@@ -39,7 +39,20 @@ const GiffItem = ({
           }}
         >
           <img src={url} alt={title} />
-          <div className="love">
+          <div
+            className="love"
+            onClick={() =>
+              saveToFavourites({
+                id,
+                title,
+                embed_url,
+                url: link,
+                images: {
+                  original: { url },
+                },
+              })
+            }
+          >
             <i className="fa-solid fa-heart"></i>
           </div>
         </div>

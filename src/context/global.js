@@ -2,11 +2,14 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { globalReducer } from "../reducers/globalReducer";
 import axios from "axios";
 import {
+  ADD_TO_FAVOURITES,
+  GET_FAVOURITES,
   GET_RANDOM,
   GET_SEARCH,
   GET_TRENDING,
   LOADING,
 } from "../utils/globalActions";
+import { type } from "@testing-library/user-event/dist/type";
 
 const GlobalContext = createContext();
 const apikey = process.env.REACT_APP_API_KEY;
@@ -57,8 +60,34 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: GET_SEARCH, payload: res.data.data });
   };
 
+  // SAVE to favourites
+  const saveToFavourites = (gif) => {
+    const storedItems = JSON.parse(localStorage.getItem("Myfavourites")) || [];
+    // adding items on the local storage if it is not yet added to liked
+    if (!storedItems.some((item) => item.id === gif.id)) {
+      const items = [...storedItems, gif];
+      localStorage.setItem("Myfavourites", JSON.stringify(items));
+      dispatch({ type: ADD_TO_FAVOURITES, payload: gif });
+      alert("added to liked!");
+    } else {
+      alert("already exists");
+    }
+  };
+  // getting favourite from localstorage
+  const getFromLocalStorage = () => {
+    const storedItems = JSON.parse(localStorage.getItem("Myfavourites")) || [];
+    dispatch({ type: GET_FAVOURITES, payload: storedItems });
+  };
   return (
-    <GlobalContext.Provider value={{ ...state, getRandom, getSearch }}>
+    <GlobalContext.Provider
+      value={{
+        ...state,
+        getRandom,
+        getSearch,
+        saveToFavourites,
+        getFromLocalStorage,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

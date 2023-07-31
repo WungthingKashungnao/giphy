@@ -7,11 +7,12 @@ import Trending from "./components/Trending";
 import { useState } from "react";
 import Random from "./components/Random";
 import Search from "./components/Search";
+import Favourites from "./components/Favourites";
 
 function App() {
   const theme = useTheme(); //accessing useTheme context
   const [rendered, setRendered] = useState("trending"); //state for categories fo giff's
-  const { getRandom } = useGlobal();
+  const { getRandom, getFromLocalStorage } = useGlobal();
 
   // fucntion to change between different categories of giff's
   const content = () => {
@@ -19,7 +20,7 @@ function App() {
       case "trending":
         return <Trending />;
       case "liked":
-        return <Trending />;
+        return <Favourites />;
       case "random":
         return <Random />;
       case "search":
@@ -36,7 +37,10 @@ function App() {
         <Button
           name={"Liked"}
           icon={<i className="fa-solid fa-heart"></i>}
-          onClick={() => setRendered("liked")}
+          onClick={() => {
+            setRendered("liked");
+            getFromLocalStorage();
+          }}
         />
         <Button
           name={"Trending Gifs"}
