@@ -7,7 +7,7 @@ import { useTheme } from "../context/themeContext";
 import Loader from "./Loader";
 
 const liked = <i className="fa-solid fa-heart"></i>;
-const Favourites = () => {
+const Favourites = ({ rendered }) => {
   const theme = useTheme();
   const { favourites, loading } = useGlobal();
 
@@ -29,7 +29,14 @@ const Favourites = () => {
         columnClassName="my-masonry-grid_column"
       >
         {favourites.map((giff) => {
-          return <GiffItem key={giff.id} {...giff} giffItem={giff}></GiffItem>;
+          return (
+            <GiffItem
+              key={giff.id}
+              {...giff}
+              giffItem={giff}
+              rendered={rendered}
+            ></GiffItem>
+          );
         })}
       </Masonry>
     </FavouriteStyle>

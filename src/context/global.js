@@ -78,6 +78,13 @@ export const GlobalProvider = ({ children }) => {
     const storedItems = JSON.parse(localStorage.getItem("Myfavourites")) || [];
     dispatch({ type: GET_FAVOURITES, payload: storedItems });
   };
+  // removing giff localstorage
+  const removeFromLocalStorage = (gif) => {
+    const storedItems = JSON.parse(localStorage.getItem("Myfavourites"));
+    const items = storedItems.filter((item) => item.id !== gif.id);
+    localStorage.setItem("Myfavourites", JSON.stringify(items));
+    getFromLocalStorage();
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -86,6 +93,7 @@ export const GlobalProvider = ({ children }) => {
         getSearch,
         saveToFavourites,
         getFromLocalStorage,
+        removeFromLocalStorage,
       }}
     >
       {children}

@@ -20,7 +20,7 @@ function App() {
       case "trending":
         return <Trending />;
       case "liked":
-        return <Favourites />;
+        return <Favourites rendered={rendered} />;
       case "random":
         return <Random />;
       case "search":
